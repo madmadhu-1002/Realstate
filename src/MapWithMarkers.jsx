@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader} from '@react-google-maps/api';
+import SearchComp from './SearchComp';
+
+
 
 const containerStyle = {
   width: '600px',
@@ -11,9 +14,16 @@ const center = {
   lng: 78.4772
 };
 
+const libraries = ['places'];
+
 const MapWithMarkers = (props) => {
+  const [isComponentVisible, setIsComponentVisible] = React.useState(false);
+  const handleButtonClick = () => {
+    setIsComponentVisible(true);
+  };
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
+        libraries: libraries,
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
       })
   const [pickupLocation, setPickupLocation] = useState(center);
@@ -51,27 +61,40 @@ const MapWithMarkers = (props) => {
   }, []);
   
   
+  
   return isLoaded ?(
     <>
+    
+    <div>
+    {props.mapWithSearch?<SearchComp type={"Search Pick Up Location"}/>:null}
+    <br />
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={pickupLocation}
       zoom={15}
       onClick={handleMapClick}
+      options={{
+        zoomControl: false,
+        fullscreenControl: false, // Disable full-screen control
+        streetViewControl: false, // Disable street view control
+        mapTypeControl: false, // Disable map type control
+      }}
+      
     >
+      
       {pickupLocation && (
-        <Marker
-          position={pickupLocation}
-          icon={{
-            url: 'https://maps.google.com/mapfiles/kml/paddle/blu-blank.png',
-            scaledSize: new window.google.maps.Size(32, 32),
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(16, 32)
-          }}
-        />
+        <MarkerF // Use MarkerF instead of Marker
+        position={pickupLocation}
+        // Configure AdvancedMarker options here (refer to documentation)
+      />
       )}
       
-    </GoogleMap>
+      
+    </GoogleMap><br />
+    {props.mapWithSearch?<SearchComp type={"Search Drop Location"}/>:null}
+    
+    
+    </div>
     </> ):<></>
   ;
 };

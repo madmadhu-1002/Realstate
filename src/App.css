@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  
 }
 
 .logo {
@@ -39,4 +40,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.search-container{
+  background-color: rgb(233, 244, 253);
+  border-radius: 2px;
+  padding: 10px;
+  margin-bottom: 20px;
+  color: rgb(170, 170, 223);
 }

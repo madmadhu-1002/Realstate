@@ -1,11 +1,13 @@
 import React from 'react'
-import Map from './Map'
-import MapWithMarkers from './MapWithMarkers'
+import MapWithMarkers from './MapWithMarkers';
+
 
 const App = () => {
   const [isComponentVisible, setIsComponentVisible] = React.useState(false);
   const [pickupLocation, setPickupLocation] = React.useState(null);
   const [dropLocation, setDropLocation] = React.useState(null);
+  
+  
   const handleButtonClick = () => {
     setIsComponentVisible(true);
   };
@@ -25,12 +27,19 @@ const App = () => {
   console.log("drop");
   console.log(dropLocation);
   return (
+    <>
+    
+    
     <div>
-      <MapWithMarkers location={setPickupLocation}/>
+      
+
+      <MapWithMarkers location={setPickupLocation} mapWithSearch={true}/>
       <button onClick={handleButtonClick}>Select on Map</button>
-      {isComponentVisible && <MapWithMarkers location={setDropLocation}/>}
-      <button onClick={confirmClick}>Confirm Drop Point</button>
+      {isComponentVisible && <MapWithMarkers location={setDropLocation} mapWithSearch={false}/>}
+      <button onClick={confirmClick} hidden={!isComponentVisible}>Confirm Drop Point</button>
+      
     </div>
+    </>
   )
 }
 
